@@ -43,7 +43,7 @@ export const ConversationCard: React.FC<ConversationCard> = ({
                     <ul className={styles.users}>
                         {guests.map((name, i) => (
                             <li key={name + i}>
-                                {name}{' '}
+                                {name}
                                 <img
                                     src='/static/cloud.png'
                                     alt='Cloud'
@@ -55,7 +55,7 @@ export const ConversationCard: React.FC<ConversationCard> = ({
                     </ul>
                     <ul className={styles.details}>
                         <li>
-                            {guestsCount}{' '}
+                            {guestsCount}
                             <img
                                 src='/static/user.svg'
                                 alt='Users count'

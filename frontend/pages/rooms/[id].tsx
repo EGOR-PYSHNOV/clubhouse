@@ -24,16 +24,15 @@ export default function RoomPage({ room }) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     try {
-        const { data } = await Axios.get('/rooms.json')
+        const { data } = await Axios.get('/rooms')
         const roomId = ctx.query.id
-        const room = data.find((roomDb) => roomDb.id === roomId)
+        const room = data.find((roomFromDb) => roomFromDb.id === roomId)
         return {
             props: {
                 room,
             },
         }
     } catch (error) {
-        console.log('ERROR!')
         return {
             props: {
                 rooms: [],
