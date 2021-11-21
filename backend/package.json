@@ -19,5 +19,8 @@
     },
     "scripts": {
         "server": "ts-node-dev --respawn --transpile-only ./index.ts"
+    },
+    "devDependencies": {
+        "sequelize-cli": "^6.3.0"
     }
 }
