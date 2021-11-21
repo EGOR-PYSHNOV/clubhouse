@@ -4,16 +4,24 @@ dotenv.config()
 import { passport } from './core/passport'
 import './core/db'
 
+/* TODO: 
+Add docker
+*/
+
 const app = express()
 
 app.use(passport.initialize())
 
-app.get('/auth/facebook', passport.authenticate('facebook'))
+app.get(
+    '/auth/google',
+    passport.authenticate('google', {
+        scope: ['https://www.googleapis.com/auth/plus.login'],
+    })
+)
 
 app.get(
-    '/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect: '/',
+    '/auth/google/callback/',
+    passport.authenticate('google', {
         failureRedirect: '/login',
     }),
     (req, res) => {

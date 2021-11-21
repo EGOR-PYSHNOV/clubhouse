@@ -1,14 +1,14 @@
 import passport from 'passport'
-import { Strategy as FacebookStrategy } from 'passport-facebook'
-import { User } from '../models'
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
+import { user as User } from '../models'
 
 passport.use(
-    'facebook',
-    new FacebookStrategy(
+    'google',
+    new GoogleStrategy(
         {
-            clientID: process.env.FACEBOOK_APP_ID,
-            clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: 'http://localhost:3002/auth/facebook/callback',
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: 'http://localhost:3002/auth/google/callback',
         },
         async (_: unknown, __: unknown, profile, done) => {
             try {
@@ -16,7 +16,8 @@ passport.use(
                     fullname: profile.displayName,
                     avatarUrl: profile.photos?.[0].value,
                     isActive: false,
-                    username: profile.username,
+                    username:
+                        profile.name.givenName + ' ' + profile.name.familyName,
                     phone: '',
                 }
 
