@@ -6,6 +6,8 @@ import './core/db'
 
 const app = express()
 
+app.use(passport.initialize())
+
 app.get('/auth/facebook', passport.authenticate('facebook'))
 
 app.get(
@@ -15,7 +17,11 @@ app.get(
         failureRedirect: '/login',
     }),
     (req, res) => {
-        res.send()
+        res.send(
+            `<script>window.opener.postMessage('${JSON.stringify(
+                req.user
+            )}', '*');window.close();</script>`
+        )
     }
 )
 
