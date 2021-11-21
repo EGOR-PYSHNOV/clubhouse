@@ -7,12 +7,12 @@ import styles from './TwitterStep.module.scss'
 import React from 'react'
 import { MainContext } from '../../../pages'
 
-export const TwitterStep: React.FC = () => {
+export const GoogleStep: React.FC = () => {
     const { onNextStep } = React.useContext(MainContext)
 
     const onClickAuth = () => {
         const win = window.open(
-            'http://localhost:3002/auth/facebook',
+            'http://localhost:3002/auth/google',
             'Auth',
             'width=500,height=500,status=yes,toolbar=no,menubar=no,location=no'
         )
@@ -61,7 +61,7 @@ export const TwitterStep: React.FC = () => {
                         alt='Twitter logo'
                         className={styles.twitterLogo}
                     />
-                    Import from FaceBook
+                    Import from Google
                     <img className='d-ib ml-10' src='/static/arrow.svg' />
                 </Button>
                 <div className='link mt-20 cup d-ib'>
