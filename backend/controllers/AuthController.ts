@@ -1,6 +1,6 @@
 import Express from 'express'
 import { randomCode } from '../helpers/randomCode'
-import { SmsCode, User } from '../models'
+import { SmsCode, user as User } from '../models'
 import { axios } from '../core/axios'
 
 class AuthController {
@@ -21,13 +21,15 @@ class AuthController {
         const { code, user } = req.body
 
         if (!code) {
-            return res.status(400).json({ message: 'Введите код активации' })
+            return res.status(400).json({
+                message: `Write the code ${code} ${JSON.stringify(user)}`,
+            })
         }
 
         const whereQuery = { code, user_id: userId }
 
         try {
-            const findCode = await User.findOne({
+            const findCode = await SmsCode.findOne({
                 where: whereQuery,
             })
 
@@ -42,13 +44,13 @@ class AuthController {
                 return res.send()
             } else {
                 res.status(400).json({
-                    message: 'Код не найден',
+                    message: 'Code was not found',
                 })
             }
         } catch (error) {
             console.log(error)
             res.status(500).json({
-                message: 'Ошибка при активации аккаунта',
+                message: `Error while activate account ${userId}`,
             })
         }
     }
@@ -59,7 +61,9 @@ class AuthController {
         const smsCode = randomCode()
 
         if (!phone) {
-            return res.status(400).send()
+            return res.status(400).json({
+                message: 'No number',
+            })
         }
 
         try {
