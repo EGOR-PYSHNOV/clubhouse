@@ -1,6 +1,21 @@
+import { createJwtToken } from './../helpers/auth/createJwtToken'
+import { UserModel } from './../types/user'
 import passport from 'passport'
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth'
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import { user as User } from '../models'
+
+const config = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.JWT_SECRET_KEY,
+}
+
+passport.use(
+    'jwt',
+    new JwtStrategy(config, (jwt_payload, done) => {
+        done(null, jwt_payload.data)
+    })
+)
 
 passport.use(
     'google',
@@ -12,7 +27,9 @@ passport.use(
         },
         async (_: unknown, __: unknown, profile, done) => {
             try {
-                const obj = {
+                let userData: UserModel
+
+                const obj: Omit<UserModel, 'id'> = {
                     fullname: profile.displayName,
                     avatarUrl: profile.photos?.[0].value,
                     isActive: false,
@@ -28,11 +45,15 @@ passport.use(
                 })
 
                 if (!findUser) {
-                    const user = await User.create(obj)
-                    return done(null, user.toJSON())
+                    userData = (await User.create(obj)).toJSON()
+                } else {
+                    userData = await findUser.toJSON()
                 }
 
-                done(null, findUser)
+                done(null, {
+                    ...userData,
+                    token: createJwtToken(userData),
+                })
             } catch (error) {
                 done(error)
             }

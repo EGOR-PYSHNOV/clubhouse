@@ -2,13 +2,14 @@ import clsx from 'clsx'
 import { WhiteBlock } from '../../WhiteBlock'
 import { Button } from '../../Button'
 import { StepInfo } from '../../StepInfo'
-
-import styles from './TwitterStep.module.scss'
+import styles from './GoogleStep.module.scss'
 import React from 'react'
 import { MainContext } from '../../../pages'
+import Cookies from 'js-cookie'
+import { User } from '../../../types'
 
 export const GoogleStep: React.FC = () => {
-    const { onNextStep } = React.useContext(MainContext)
+    const { onNextStep, setUserData } = React.useContext(MainContext)
 
     const onClickAuth = () => {
         const win = window.open(
@@ -16,18 +17,19 @@ export const GoogleStep: React.FC = () => {
             'Auth',
             'width=500,height=500,status=yes,toolbar=no,menubar=no,location=no'
         )
-
-        const timer = setInterval(() => {
-            if (win.closed) {
-                clearInterval(timer)
-                onNextStep()
-            }
-        }, 100)
     }
 
     React.useEffect(() => {
-        window.addEventListener('message', (data) => {
-            console.log(data)
+        window.addEventListener('message', ({ data }) => {
+            const user: string = data
+            if (typeof user === 'string' && user.includes('avatarUrl')) {
+                Cookies.remove('token')
+                const json: User = JSON.parse(user)
+                setUserData(json)
+                onNextStep()
+
+                Cookies.set('token', json.token)
+            }
         })
     }, [])
 
@@ -37,7 +39,12 @@ export const GoogleStep: React.FC = () => {
                 icon='/static/connect.png'
                 title='Do you want import info from Twitter?'
             />
-            <WhiteBlock className={clsx('m-auto mt-40', styles.whiteBlock)}>
+            <WhiteBlock
+                className={clsx(
+                    'm-auto mt-40 d-flex flex-column',
+                    styles.whiteBlock
+                )}
+            >
                 <div className={styles.avatar}>
                     <b>AD</b>
                     <svg
@@ -55,11 +62,11 @@ export const GoogleStep: React.FC = () => {
                     </svg>
                 </div>
                 <h2 className='mb-40'>Archakov Dennis</h2>
-                <Button onClick={onClickAuth}>
+                <Button onClick={onClickAuth} className={styles.googleButton}>
                     <img
-                        src='/static/twitter.svg'
-                        alt='Twitter logo'
-                        className={styles.twitterLogo}
+                        src='/static/google.svg'
+                        alt='Google logo'
+                        className={styles.googleLogo}
                     />
                     Import from Google
                     <img className='d-ib ml-10' src='/static/arrow.svg' />

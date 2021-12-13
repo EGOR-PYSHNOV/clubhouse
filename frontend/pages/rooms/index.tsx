@@ -1,4 +1,4 @@
-import Axios from '../../core/axios'
+import { axios } from '../../core/axios'
 import Link from 'next/link'
 import { GetServerSideProps } from 'next'
 import { Button } from '../../components/Button'
@@ -36,7 +36,7 @@ export default function RoomsPage({ rooms = [] }) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
     try {
-        const { data } = await Axios.get('/rooms')
+        const { data } = await axios.get('/rooms')
         return {
             props: {
                 rooms: data,

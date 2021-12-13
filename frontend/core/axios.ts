@@ -1,8 +1,13 @@
-import Axios from 'axios'
+import axiosLib from 'axios'
+import { parseCookies } from 'nookies'
 
-const instance = Axios.create({
-    baseURL: 'http://localhost:3001',
-    withCredentials: true,
+const cookies = parseCookies()
+
+const axios = axiosLib.create({
+    baseURL: 'http://localhost:3002',
+    headers: {
+        Authorization: 'Bearer ' + cookies?.token,
+    },
 })
 
-export default instance
+export { axios }

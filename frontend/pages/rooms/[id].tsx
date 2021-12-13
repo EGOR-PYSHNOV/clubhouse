@@ -1,4 +1,4 @@
-import Axios from '../../core/axios'
+import { axios } from '../../core/axios'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import React from 'react'
@@ -24,7 +24,7 @@ export default function RoomPage({ room }) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     try {
-        const { data } = await Axios.get('/rooms')
+        const { data } = await axios.get('/rooms')
         const roomId = ctx.query.id
         const room = data.find((roomFromDb) => roomFromDb.id === roomId)
         return {

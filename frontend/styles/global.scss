@@ -53,6 +53,12 @@ a {
     gap: 30px;
 }
 
+.d-flex {
+    display: flex;
+}
+.flex-column {
+    flex-direction: column;
+}
 .loader {
     display: inline-block;
     width: 2rem;
