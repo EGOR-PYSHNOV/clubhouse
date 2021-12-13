@@ -26,7 +26,7 @@ app.use(passport.initialize())
 app.use(cors())
 app.use(express.json())
 
-app.get(
+app.post(
     '/auth/sms/activate',
     passport.authenticate('jwt', { session: false }),
     AuthController.activate
