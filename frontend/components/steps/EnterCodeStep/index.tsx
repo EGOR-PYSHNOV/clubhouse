@@ -7,12 +7,13 @@ import { StepInfo } from '../../StepInfo'
 import { axios } from '../../../core/axios'
 
 import styles from './EnterCodeStep.module.scss'
+import { MainContext } from '../../../pages'
 
 export const EnterCodeStep = () => {
     const router = useRouter()
+    const { userData } = React.useContext(MainContext)
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
     const [codes, setCodes] = React.useState(['', '', '', ''])
-    const nextDisabled = codes.some((v) => !v)
 
     const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const index = Number(event.target.getAttribute('id'))
@@ -24,16 +25,22 @@ export const EnterCodeStep = () => {
         })
         if (event.target.nextSibling) {
             ;(event.target.nextSibling as HTMLInputElement).focus()
+        } else {
+            onSubmit([...codes, value].join(''))
         }
     }
 
-    const onSubmit = async () => {
+    const onSubmit = async (code: string) => {
         try {
             setIsLoading(true)
-            await axios.get('/todos')
+            await axios.post('/auth/sms/activate', {
+                code,
+                user: userData,
+            })
             router.push('/rooms')
         } catch (error) {
-            alert('Ошибка при активации!')
+            alert('Error while activate code')
+            setCodes(['', '', '', ''])
         }
 
         setIsLoading(false)
@@ -50,7 +57,7 @@ export const EnterCodeStep = () => {
                     <WhiteBlock
                         className={clsx('m-auto mt-30', styles.whiteBlock)}
                     >
-                        <div className={clsx('mb-30', styles.codeInput)}>
+                        <div className={styles.codeInput}>
                             {codes.map((code, index) => (
                                 <input
                                     key={index}
@@ -63,13 +70,6 @@ export const EnterCodeStep = () => {
                                 />
                             ))}
                         </div>
-                        <Button onClick={onSubmit} disabled={nextDisabled}>
-                            Next
-                            <img
-                                className='d-ib ml-10'
-                                src='/static/arrow.svg'
-                            />
-                        </Button>
                     </WhiteBlock>
                 </>
             ) : (

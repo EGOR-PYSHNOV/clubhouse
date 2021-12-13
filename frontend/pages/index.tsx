@@ -27,6 +27,25 @@ type MainContextProps = {
 export const MainContext = React.createContext<MainContextProps>(
     {} as MainContextProps
 )
+const getUserData = (): User | null => {
+    try {
+        return JSON.parse(window.localStorage.getItem('userData'))
+    } catch (error) {
+        return null
+    }
+}
+
+const getFormStep = (): number => {
+    const json = getUserData()
+    if (json) {
+        if (json.phone) {
+            return 5
+        } else {
+            return 4
+        }
+    }
+    return 0
+}
 
 export default function Home() {
     const [step, setStep] = React.useState<number>(0)
@@ -43,6 +62,16 @@ export default function Home() {
             [field]: value,
         }))
     }
+
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const json = getUserData()
+            if (json) {
+                setUserData(json)
+                setStep(getFormStep())
+            }
+        }
+    }, [])
 
     React.useEffect(() => {
         window.localStorage.setItem(
