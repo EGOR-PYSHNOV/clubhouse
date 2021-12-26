@@ -6,7 +6,7 @@ import styles from './Avatar.module.scss'
 
 interface AvatarProps {
     src: string
-    letters: string
+    letters?: string
     width: string
     height: string
     className?: string
