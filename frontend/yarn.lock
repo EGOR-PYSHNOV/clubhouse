@@ -278,6 +278,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.6.tgz#6bef7a2a0ad684cf6e90fcfe31cecabd9ce0a3ae"
   integrity sha512-ua7PgUoeQFjmWPcoo9khiPum3Pd60k4/2ZGXt18sm2Slk0W0xZTqt5Y0Ny1NyBiN1EVQ/+FaF9NcY4Qe6rwk5w==
 
+"@types/nookies@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/nookies/-/nookies-2.0.3.tgz#2173e8977a9163defc37fdcc3140a834f21373d1"
+  integrity sha512-+PO/CKwVx7gDG5Pjr+UU/hL6/vFm1ppgW8cilV4AreLEpjbz0wiFvZ5Nld1VIRTr/RiB/KFmiyOzr8GboJfpqg==
+  dependencies:
+    nookies "*"
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
@@ -3276,7 +3283,7 @@ node-sass@^6.0.1:
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
 
-nookies@^2.5.2:
+nookies@*, nookies@^2.5.2:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/nookies/-/nookies-2.5.2.tgz#cc55547efa982d013a21475bd0db0c02c1b35b27"
   integrity sha512-x0TRSaosAEonNKyCrShoUaJ5rrT5KHRNZ5DwPCuizjgrnkpE5DRf3VL7AyyQin4htict92X1EQ7ejDbaHDVdYA==
