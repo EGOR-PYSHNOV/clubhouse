@@ -61,6 +61,6 @@ app.get(
 
 app.post('/upload', uploader.single('photo'), UploadController.upload)
 
-app.listen(3002, () => {
+app.listen(process.env.PORT || 3002, () => {
     console.log('SERVER WAS RUNNED')
 })
