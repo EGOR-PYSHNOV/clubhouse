@@ -1,18 +1,22 @@
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
-type BackButtonProps = {
+export const BackButton = function BackButton(props: {
   title: string;
-  path: string;
-};
-
-export const BackButton: React.FC<BackButtonProps> = ({ title, path }) => {
+  href: string;
+}) {
   return (
-    <Link href={path} passHref>
+    <Link href={props.href} passHref>
       <div className="d-flex mb-30 cup">
-        <img src="/static/back-arrow.svg" alt="Back" className="mr-10" />
-        <h3>{title}</h3>
+        <Image
+          src="/static/back-arrow.svg"
+          width="24px"
+          height="24px"
+          alt="Back"
+          className="mr-10"
+        />
+        <h3>{props.title}</h3>
       </div>
     </Link>
   );

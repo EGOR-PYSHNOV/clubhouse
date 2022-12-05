@@ -1,13 +1,13 @@
-import axiosLib from 'axios'
-import { parseCookies } from 'nookies'
+import axiosLib from "axios";
+import { parseCookies } from "nookies";
 
-const cookies = parseCookies()
+const cookies = parseCookies();
 
 const axios = axiosLib.create({
-    baseURL: 'http://localhost:3002',
-    headers: {
-        Authorization: 'Bearer ' + cookies?.token,
-    },
-})
+  baseURL: "http://localhost:3002",
+  headers: {
+    Authorization: "bearer " + cookies?.token,
+  },
+});
 
-export { axios }
+export { axios };

@@ -1,7 +1,7 @@
-import clsx from 'clsx';
-import React from 'react';
+import cn from "classnames";
+import React, { ReactNode } from "react";
 
-import styles from './Button.module.scss';
+import styles from "./Button.module.scss";
 
 const colors = {
   green: styles.buttonGreen,
@@ -9,27 +9,21 @@ const colors = {
   blue: styles.buttonBlue,
 };
 
-interface ButtonProps {
+export const Button = function Button(props: {
+  children: ReactNode;
   disabled?: boolean;
-  color?: keyof typeof colors;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  color: keyof typeof colors;
+  onClick: VoidFunction;
   className?: string;
-}
-
-export const Button: React.FC<ButtonProps> = ({
-  children,
-  disabled,
-  color,
-  onClick,
-  className,
-}) => {
+}) {
   return (
     <button
-      onClick={onClick}
+      onClick={props.onClick}
       type="button"
-      className={clsx(className, styles.button, colors[color])}
-      disabled={disabled}>
-      {children}
+      className={cn(props.className, styles.button, colors[props.color])}
+      disabled={props.disabled}
+    >
+      {props.children}
     </button>
   );
 };
